@@ -8,7 +8,7 @@ namespace PhonebookM
     public class ViewModel : INotifyPropertyChanged
     {
         public string Form;
-        public IPhoneBook PhoneBook = new SQlitePhoneBook();
+        public IPhoneBook PhoneBook = new JsonPhoneBook();
         private readonly IMainView _view;
 
         public ViewModel(IMainView view)
@@ -20,9 +20,9 @@ namespace PhonebookM
             contacts = PhoneBook.GetAll();
         }
 
-        private Contact selectedContact;
+        public Contact selectedContact;
 
-        private ObservableCollection<Contact> contacts { get; set; }
+        public ObservableCollection<Contact> contacts { get; set; }
 
         private RelayCommand addCommand;
         public RelayCommand AddCommand
@@ -52,11 +52,11 @@ namespace PhonebookM
                     {
                         Contact contact = obj as Contact;                        
                         {
-                            if (SelectedContact != null)
+                            if (selectedContact != null)
                                 if (MainWindow.DeleteWarning())
                                 {
-                                    PhoneBook.Delete(SelectedContact);
-                                    contacts.Remove(SelectedContact);
+                                    PhoneBook.Delete(selectedContact);
+                                    contacts.Remove(selectedContact);
                                     PhoneBook.UpdateList(contacts);
                                 }
                         }
@@ -74,7 +74,7 @@ namespace PhonebookM
                 return editCommand ??
                     (editCommand = new RelayCommand(obj =>
                     {
-                        if (SelectedContact != null)
+                        if (selectedContact != null)
                         {
                             Form = "edit";
                             AddEditViewModel viewModel = new AddEditViewModel(this);
@@ -87,11 +87,11 @@ namespace PhonebookM
 
         public Contact SelectedContact
         {
-            get { return SelectedContact; }
+            get { return selectedContact; }
             set
             {
-                SelectedContact = value;
-                OnPropertyChanged("SelectedContact");
+                selectedContact = value;
+                OnPropertyChanged("selectedContact");
             }
         }
 
