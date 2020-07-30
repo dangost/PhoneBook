@@ -77,10 +77,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddEditDepartament.xaml.cs">
+      <DependentUpon>AddEditDepartament.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AddEditDialog.xaml.cs">
       <DependentUpon>AddEditDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="AddEditViewModel.cs" />
+    <Compile Include="ContactModel.cs" />
+    <Compile Include="Department.cs" />
     <Compile Include="IAddEditView.cs" />
     <Compile Include="IMainView.cs" />
     <Compile Include="JsonPhoneBook.cs" />
@@ -88,6 +93,10 @@
     <Compile Include="SQlitePhoneBook.cs" />
     <Compile Include="ViewModel.cs" />
     <Compile Include="XMLphoneBook.cs" />
+    <Page Include="AddEditDepartament.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AddEditDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

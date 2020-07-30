@@ -14,8 +14,7 @@ namespace PhonebookM
     {
         List<TextBox> boxes;
         public AddEditDialog(AddEditViewModel viewModel)
-        {
-            
+        {            
             boxes = new List<TextBox> { };
             InitializeComponent();
 
@@ -33,12 +32,10 @@ namespace PhonebookM
         {
             boxes.Clear();
 
-
             boxes.Add(textBoxName);
             boxes.Add(textBoxSurname);
             boxes.Add(textBoxNumber);
             boxes.Add(textBoxEmail);
-
             
             return boxes;
         }
@@ -51,6 +48,11 @@ namespace PhonebookM
         public Button GetButton()
         {
             return button;
+        }
+
+        public ComboBox GetBox()
+        {
+            return comboBoxDepartment;
         }
 
         private void textBoxName_TextChanged(object sender, TextChangedEventArgs e)

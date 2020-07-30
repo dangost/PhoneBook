@@ -6,16 +6,26 @@ namespace PhonebookM
     {
         void Load();
 
-        ObservableCollection<Contact> GetAll();
+        ObservableCollection<Contact> GetAllContacts();
+        ObservableCollection<Department> GetAllDepartments();
+        ObservableCollection<ContactModel> GetAllContactsModels();
 
         void Delete(Contact SelectedItem);
+        bool Delete(Department SelectedItem);
+        void Delete(ContactModel contactModel);
 
         void Update();
 
         void Add(Contact contact);
+        void Add(Department department);
+        void Add(ContactModel contactModel);
 
-        int CreateId();
+        void UpdateContactsModel(ObservableCollection<Contact> contacts);
 
-        void UpdateList(ObservableCollection<Contact> newContacts);       
+        int CreateId(string form);
+
+        void UpdateList(ObservableCollection<Contact> newContacts);
+        void UpdateList(ObservableCollection<Department> newDepartment);
+        void UpdateList(ObservableCollection<ContactModel> newContactsModel);
     }
 }

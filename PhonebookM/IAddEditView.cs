@@ -15,6 +15,8 @@ namespace PhonebookM
 
         Button GetButton();
 
+        ComboBox GetBox();
+
         void CloseDialog();
     }
 }

@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace PhonebookM
 {
-    public class XMLphoneBook : IPhoneBook
+    public class XMLphoneBook //: IPhoneBook
     {
         private ObservableCollection<Contact> contacts = new ObservableCollection<Contact> { };
 
@@ -29,7 +29,7 @@ namespace PhonebookM
             }
         }
 
-        public ObservableCollection<Contact> GetAll()
+        public ObservableCollection<Contact> GetAllContacts()
         {
             return contacts;
         }

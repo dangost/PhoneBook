@@ -3,14 +3,14 @@ using System.Runtime.CompilerServices;
 
 namespace PhonebookM
 {
-    public class Contact : INotifyPropertyChanged
+    public class ContactModel : INotifyPropertyChanged
     {
         private int id;
         private string name;
         private string surname;
         private string number;
         private string email;
-        private int depId; 
+        private string department;
 
         public int Id
         {
@@ -48,11 +48,11 @@ namespace PhonebookM
             set { email = value; OnPropertyChanged("email"); }
         }
 
-        public int DepId
+        public string Department
         {
-            get { return depId; }
+            get { return department; }
 
-            set { depId = value; OnPropertyChanged("depId"); }
+            set { department = value; OnPropertyChanged("department"); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
