@@ -6,8 +6,9 @@ using System.Data.Entity;
 using System.IO;
 using Dapper;
 using System.Linq;
+using Domain;
 
-namespace PhonebookM
+namespace Infrastructure
 {
     public class SQlitePhoneBook : IPhoneBook
     {

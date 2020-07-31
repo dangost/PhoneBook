@@ -1,11 +1,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
-using System.Collections.Generic;
-using System.IO;
-using System.Windows.Controls;
-using System.Linq;
 using System;
+using Domain;
+using Infrastructure;
 
 namespace PhonebookM
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace PhonebookM
+namespace Domain
 {
     public interface IPhoneBook
     {

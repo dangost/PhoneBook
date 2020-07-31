@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.IO;
 using System;
-using System.Xml;
 using System.Xml.Serialization;
+using Domain;
 
-namespace PhonebookM
+namespace Infrastructure
 {
     public class XMLphoneBook : IPhoneBook
     {

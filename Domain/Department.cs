@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 
-namespace PhonebookM
+namespace Domain
 {
     public class Departament : INotifyPropertyChanged
     {

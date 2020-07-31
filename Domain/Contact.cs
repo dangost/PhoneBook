@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace PhonebookM
+namespace Domain
 {
-    public class ContactModel : INotifyPropertyChanged
+    public class Contact : INotifyPropertyChanged
     {
         private int id;
         private string name;
         private string surname;
         private string number;
         private string email;
-        private string department;
+        private int depId; 
 
         public int Id
         {
@@ -48,11 +48,11 @@ namespace PhonebookM
             set { email = value; OnPropertyChanged("email"); }
         }
 
-        public string Department
+        public int DepId
         {
-            get { return department; }
+            get { return depId; }
 
-            set { department = value; OnPropertyChanged("department"); }
+            set { depId = value; OnPropertyChanged("depId"); }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

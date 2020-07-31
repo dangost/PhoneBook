@@ -87,15 +87,10 @@
       <DependentUpon>AddEditDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="AddEditViewModel.cs" />
-    <Compile Include="ContactModel.cs" />
-    <Compile Include="Department.cs" />
     <Compile Include="IAddEditView.cs" />
     <Compile Include="IMainView.cs" />
-    <Compile Include="JsonPhoneBook.cs" />
     <Compile Include="RelayCommands.cs" />
-    <Compile Include="SQlitePhoneBook.cs" />
     <Compile Include="ViewModel.cs" />
-    <Compile Include="XMLphoneBook.cs" />
     <Page Include="AddEditDepartament.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -112,8 +107,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Contact.cs" />
-    <Compile Include="IPhoneBook.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -145,6 +138,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{c353c522-076c-409b-b8e6-4807f26c75bf}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
+      <Project>{e8c4c93b-93bc-4e8a-922e-dfeaed9b2b73}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
