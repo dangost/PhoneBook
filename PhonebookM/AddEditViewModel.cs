@@ -17,10 +17,10 @@ namespace PhonebookM
         string form;
 
         public Contact selectedContact;
-        public Department selectedDepartment;
+        public Departament selectedDepartment;
         public ContactModel selectedContactModel;
 
-        ObservableCollection<Department> departments { get; set; }
+        ObservableCollection<Departament> departments { get; set; }
         public List<string> depNames { get; set; }
 
         public void CreateInterface(IAddEditView addEditView)
@@ -56,7 +56,7 @@ namespace PhonebookM
                         textBoxes = dialog.GetTextBoxes();
                         if (form == "add")
                         {
-                            Department depart = new Department();
+                            Departament depart = new Departament();
 
                             Contact contact = new Contact();
                             ContactModel contactModel = new ContactModel();
@@ -75,7 +75,7 @@ namespace PhonebookM
 
                                 foreach(var d in pbook.GetAllDepartments())
                                 {
-                                    if(depName == d.Name)
+                                    if(depName == d.Department)
                                     {
                                         contact.DepId = d.Id;
                                         break;
@@ -115,7 +115,7 @@ namespace PhonebookM
 
                                         foreach (var d in pbook.GetAllDepartments())
                                         {
-                                            if (depName == d.Name)
+                                            if (depName == d.Department)
                                             {
                                                 updatedContacts[i].DepId = d.Id;
                                                 break;
@@ -139,21 +139,21 @@ namespace PhonebookM
 
                         else if (form == "addDep")
                         {
-                            Department department = new Department();
+                            Departament department = new Departament();
                             department.Id = pbook.CreateId("dep");
 
                             if (textBoxes[0].Text != "")
                             {
                                 foreach (var d in pbook.GetAllDepartments())
                                 {
-                                    if(d.Name == textBoxes[0].Text)
+                                    if(d.Department == textBoxes[0].Text)
                                     {
                                         dialog.Warning("You cannot create departments with the same names");
                                         return;
                                     }
                                 }
 
-                                department.Name = textBoxes[0].Text;
+                                department.Department = textBoxes[0].Text;
 
                                 pbook.Add(department);
                                 pbook.Update();
@@ -168,14 +168,14 @@ namespace PhonebookM
 
                         else if (form == "editDep")
                         {
-                            ObservableCollection<Department> updatedDepartments = pbook.GetAllDepartments();
+                            ObservableCollection<Departament> updatedDepartments = pbook.GetAllDepartments();
                             if (textBoxes[0].Text != "")
                             {
                                 for (int i = 0; i < pbook.GetAllDepartments().Count; i++)
                                 {
                                     if (updatedDepartments[i].Id == selectedDepartment.Id)
                                     {
-                                        updatedDepartments[i].Name = textBoxes[0].Text;
+                                        updatedDepartments[i].Department = textBoxes[0].Text;
 
                                         pbook.Update();
                                         dialog.CloseDialog();

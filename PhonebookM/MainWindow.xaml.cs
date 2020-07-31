@@ -7,7 +7,7 @@ namespace PhonebookM
     public partial class MainWindow : Window, IMainView
     {
         Contact selectedContact;
-        Department selectedDepartment;
+        Departament selectedDepartment;
         ContactModel selectedContactModel;
 
         public MainWindow()
@@ -58,7 +58,7 @@ namespace PhonebookM
                
                 foreach (var d in viewModel.PhoneBook.GetAllDepartments())
                 {
-                    depsNames.Add(d.Name);
+                    depsNames.Add(d.Department);
                 }
                 addDialog.comboBoxDepartment.ItemsSource = depsNames;
                 addDialog.ShowDialog();
@@ -90,7 +90,7 @@ namespace PhonebookM
 
                 foreach (var d in viewModel.PhoneBook.GetAllDepartments())
                 {
-                    depsNames.Add(d.Name);
+                    depsNames.Add(d.Department);
                 }
                 editDialog.comboBoxDepartment.ItemsSource = depsNames;
 
@@ -114,7 +114,7 @@ namespace PhonebookM
                 editDepDialog.Title = "Edit";
                 editDepDialog.button.Content = "Save";
 
-                editDepDialog.textBoxName.Text = selectedDepartment.Name;
+                editDepDialog.textBoxName.Text = selectedDepartment.Department;
 
                 editDepDialog.ShowDialog();
             }

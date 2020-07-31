@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace PhonebookM
 {
-    public class Department : INotifyPropertyChanged
+    public class Departament : INotifyPropertyChanged
     {
         private int id;
         private string name;
@@ -20,7 +20,7 @@ namespace PhonebookM
             }
         }
 
-        public string Name
+        public string Department
         {
             get { return name; }
 

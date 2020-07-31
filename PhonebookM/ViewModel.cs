@@ -10,7 +10,7 @@ namespace PhonebookM
     public class ViewModel : INotifyPropertyChanged
     {
         public string Form;
-        public IPhoneBook PhoneBook = new SQlitePhoneBook();
+        public IPhoneBook PhoneBook = new XMLphoneBook();
         private readonly IMainView _view;
 
         public ViewModel(IMainView view)
@@ -26,11 +26,11 @@ namespace PhonebookM
         
 
         public Contact selectedContact;
-        public Department selectedDepartment;
+        public Departament selectedDepartment;
         public ContactModel selectedContactModel;
 
         public ObservableCollection<Contact> contacts { get; set; }
-        public ObservableCollection<Department> departments { get; set; }
+        public ObservableCollection<Departament> departments { get; set; }
 
         public ObservableCollection<ContactModel> contactModel;
         public ObservableCollection<ContactModel> ContactsModel
@@ -58,7 +58,7 @@ namespace PhonebookM
             {
                 if(contact.DepId == d.Id)
                 {
-                    contactModel.Department = d.Name;
+                    contactModel.Department = d.Department;
                     break;
                 }
             }
@@ -146,7 +146,7 @@ namespace PhonebookM
                 return removeDepartment ??
                     (removeDepartment = new RelayCommand(obj =>
                     {
-                        Department department = obj as Department;
+                        Departament department = obj as Departament;
                         {
                             if (selectedDepartment != null)
                                 if (MainWindow.DeleteWarning())
@@ -236,7 +236,7 @@ namespace PhonebookM
             }
         }
 
-        public Department SelectedDepartment
+        public Departament SelectedDepartment
         {
             get { return selectedDepartment; }
             set

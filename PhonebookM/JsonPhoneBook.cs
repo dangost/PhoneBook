@@ -9,26 +9,37 @@ using System.Collections.ObjectModel;
 
 namespace PhonebookM
 {
-    public class JsonPhoneBook //: IPhoneBook
+    public class JsonPhoneBook : IPhoneBook
     {
         private ObservableCollection<Contact> contacts = new ObservableCollection<Contact> { };
-        private ObservableCollection<Department> departments = new ObservableCollection<Department> { };
+        private ObservableCollection<Departament> departments = new ObservableCollection<Departament> { };
+        private ObservableCollection<ContactModel> contactsModel = new ObservableCollection<ContactModel> { };
 
-        const string jsonPath = "contactsList.json";
-        const string jsonDepPath = "departmentsList.json";
+        const string jsonPath = @"json\contactsList.json";
+        const string jsonDepPath = @"json\departmentsList.json";
 
         public ObservableCollection<Contact> GetAllContacts()
         {
             return contacts;
         }
 
-        public ObservableCollection<Department> GetAllDepartments()
+        public ObservableCollection<Departament> GetAllDepartments()
         {
             return departments;
         }
 
+        public ObservableCollection<ContactModel> GetAllContactsModels()
+        {
+            return contactsModel;
+        }
+
         public void Load()
         {
+            if (!Directory.Exists("json"))
+            {
+                Directory.CreateDirectory("json");
+            }
+
             if (File.Exists(jsonPath))
             {
                 contacts = JsonConvert.DeserializeObject<ObservableCollection<Contact>>(File.ReadAllText(jsonPath));
@@ -40,18 +51,50 @@ namespace PhonebookM
 
             if (File.Exists(jsonDepPath))
             {
-                departments = JsonConvert.DeserializeObject<ObservableCollection<Department>>(File.ReadAllText(jsonDepPath));
+                departments = JsonConvert.DeserializeObject<ObservableCollection<Departament>>(File.ReadAllText(jsonDepPath));
             }
             else
             {
                 File.WriteAllText(jsonDepPath, JsonConvert.SerializeObject(departments));
+            }
 
-                departments = new ObservableCollection<Department> { };
-                for (int i = 0; i < departments.Count; i++)
+            UpdateContactsModel(contacts);
+        }
+
+        public void UpdateContactsModel(ObservableCollection<Contact> contacts)
+        {
+            contactsModel = new ObservableCollection<ContactModel> { };
+
+            foreach(var c in contacts)
+            {
+                ContactModel temp = new ContactModel();
+
+                temp.Id = c.Id;
+                temp.Name = c.Name;
+                temp.Surname = c.Surname;
+                temp.Number = c.Number;
+                temp.Email = c.Email;
+
+                temp.Department = GetDepartmentName(c.DepId);
+
+                contactsModel.Add(temp);
+            }
+        }
+
+        string GetDepartmentName(int depId)
+        {
+            string res = "unknown";
+
+            foreach (var d in departments)
+            {
+                if (depId == d.Id)
                 {
-                   // departments[i].Contacts = new ObservableCollection<Contact> { };
+                    res = d.Department;
+                    break;
                 }
             }
+
+            return res;
         }
 
         public void Update()
@@ -66,9 +109,15 @@ namespace PhonebookM
             Update();
         }
 
-        public void UpdateList(ObservableCollection<Department> depList)
+        public void UpdateList(ObservableCollection<Departament> depList)
         {
             departments = depList;
+            Update();
+        }
+
+        public void UpdateList(ObservableCollection<ContactModel> newContactsModel)
+        {
+            contactsModel = newContactsModel;
             Update();
         }
 
@@ -76,14 +125,19 @@ namespace PhonebookM
         {
             contacts.Add(contact);
             
-            Update();
-
-            
+            Update();           
         }
 
-        public void Add(Department department)
+        public void Add(Departament department)
         {
             departments.Add(department);
+            Update();
+        }
+
+        public void Add(ContactModel contactModel)
+        {
+            contactsModel.Add(contactModel);
+
             Update();
         }
 
@@ -99,26 +153,37 @@ namespace PhonebookM
             }
         }
 
-        public bool Delete(Department selectedDepartment)
+        public bool Delete(Departament selectedItem)
         {
             bool res = true;
 
-            /*if (selectedDepartment.Contacts != null)
+            foreach (var c in contacts)
             {
-                res = true;
-                departments.Remove(selectedDepartment);
-            }*/
+                if (c.DepId == selectedItem.Id)
+                {
+                    res = false;
+                    return res;
+                }
+            }
+
+            departments.Remove(selectedItem);
+            Update();
 
             return res;
+        }
+
+        public void Delete(ContactModel contactModel)
+        {
+            contactsModel.Remove(contactModel);
+            Update();
         }
 
         public int CreateId(string form)
         {
             int id = 0;
+
             if (form == "contact")
             {
-                id = 0;
-
                 if (contacts.Count == 0)
                     id = 0;
                 else
@@ -144,8 +209,6 @@ namespace PhonebookM
 
             else if (form == "dep")
             {
-                id = 0;
-
                 if (departments.Count == 0)
                     id = 0;
                 else
@@ -166,8 +229,9 @@ namespace PhonebookM
                         }
                     }
                     id = departments.Count;
-                }                
+                }
             }
+
             return id;
         }
     }

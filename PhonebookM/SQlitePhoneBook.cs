@@ -4,7 +4,8 @@ using System.Data.SQLite;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
-
+using Dapper;
+using System.Linq;
 
 namespace PhonebookM
 {
@@ -16,17 +17,17 @@ namespace PhonebookM
             {
                 
             }
-            public DbSet<Department> Departments { get; set; }
+            public DbSet<Departament> Departments { get; set; }
             public DbSet<Contact> Contacts { get; set; }
 
         }
 
-        private string sqLitePath = @"database.db";
+        private string sqLitePath = @"db\database.db";
 
         private ApplicationContext dataBase = new ApplicationContext();
 
         private ObservableCollection<Contact> contacts = new ObservableCollection<Contact> { };
-        private ObservableCollection<Department> departments = new ObservableCollection<Department> { };
+        private ObservableCollection<Departament> departments = new ObservableCollection<Departament> { };
 
         private ObservableCollection<ContactModel> contactsModel = new ObservableCollection<ContactModel> { };
 
@@ -41,7 +42,7 @@ namespace PhonebookM
             return contactsModel;
         }
 
-        public ObservableCollection<Department> GetAllDepartments()
+        public ObservableCollection<Departament> GetAllDepartments()
         {
             Sync();
             return departments;
@@ -53,7 +54,18 @@ namespace PhonebookM
             {
                 string baseName = sqLitePath;
 
-                SQLiteConnection.CreateFile(baseName);
+                try
+                {
+                    SQLiteConnection.CreateFile(baseName);
+                }
+                catch(Exception)
+                {
+                    if (!Directory.Exists("db"))
+                    {
+                        Directory.CreateDirectory("db");
+                        SQLiteConnection.CreateFile(baseName);
+                    }
+                }
                 
                 using (SQLiteConnection connection = new SQLiteConnection())
                 {
@@ -63,9 +75,9 @@ namespace PhonebookM
                     using (SQLiteCommand command = new SQLiteCommand(connection))
                     {
                         string departs =
-                       @"CREATE TABLE [Departments] (
+                       @"CREATE TABLE [Departaments] (
                     [Id] INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                    [Name] TEXT NOT NULL
+                    [Department] TEXT NOT NULL
                     );";
                         string contacts = @"CREATE TABLE [Contacts] (
 
@@ -75,7 +87,9 @@ namespace PhonebookM
 	[Number]    TEXT,
 	[Email] TEXT,
 	[DepId] INTEGER,
-	PRIMARY KEY([Id] AUTOINCREMENT)
+FOREIGN KEY([DepId]) REFERENCES [Departaments]([Id]),
+
+    PRIMARY KEY([Id] AUTOINCREMENT)
 );";
                         command.CommandText = departs + contacts;
                         command.CommandType = System.Data.CommandType.Text;
@@ -85,7 +99,6 @@ namespace PhonebookM
                 }               
             }
 
-            dataBase = new ApplicationContext();
             dataBase = new ApplicationContext();
 
             dataBase.Contacts.Load();
@@ -101,34 +114,32 @@ namespace PhonebookM
         public void UpdateContactsModel(ObservableCollection<Contact> contacts)
         {
             contactsModel = new ObservableCollection<ContactModel> { };
-
-            foreach (var c in contacts)
-            {
-                ContactModel co = new ContactModel();
-                co.Id = c.Id;
-                co.Name = c.Name;
-                co.Surname = c.Surname;
-                co.Number = c.Number;
-                co.Email = c.Email;
-                co.Department = GetDepartmentName(c.DepId);
-                contactsModel.Add(co);
-            }            
-        }
-
-        string GetDepartmentName(int depId)
-        {
-            string res = "unknown";
             
-            foreach (var d in departments)
+            using (SQLiteConnection connection = new SQLiteConnection())
             {
-                if (depId == d.Id)
-                {
-                    res = d.Name;
-                    break;
-                }
-            }
+                connection.ConnectionString = "Data Source = " + sqLitePath;
+                connection.Open();
 
-            return res;
+                var output = connection.Query<ContactModel>
+    (
+    @"SELECT Contacts.Id, Contacts.Name, Contacts.Surname, Contacts.Number, 
+                                                    Contacts.Email, Departaments.Department
+
+	FROM Contacts, Departaments
+	
+	WHERE Contacts.DepId = Departaments.Id", new DynamicParameters());
+
+                List<ContactModel> temp = output.ToList();
+                
+                contactsModel = new ObservableCollection<ContactModel> { };
+                contactsModel.Clear();
+                foreach (var c in temp)
+                {
+                    contactsModel.Add(c);
+                }
+
+                connection.Close();
+            }
         }
 
         public void Update()
@@ -147,7 +158,7 @@ namespace PhonebookM
             UpdateContactsModel(contacts);
         }
 
-        public bool Delete(Department selectedItem)
+        public bool Delete(Departament selectedItem)
         {
             bool res = true;
 
@@ -199,7 +210,7 @@ namespace PhonebookM
             UpdateContactsModel(contacts);
         }
 
-        public void Add(Department department)
+        public void Add(Departament department)
         {
             dataBase.Departments.Add(department);
 
@@ -277,7 +288,7 @@ namespace PhonebookM
             Update();
         }
 
-        public void UpdateList(ObservableCollection<Department> newDepartments)
+        public void UpdateList(ObservableCollection<Departament> newDepartments)
         {
             departments = newDepartments;
             Update();
