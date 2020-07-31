@@ -5,7 +5,7 @@ using System;
 using Domain;
 using Infrastructure;
 
-namespace PhonebookM
+namespace UI
 {
     public class ViewModel : INotifyPropertyChanged
     {

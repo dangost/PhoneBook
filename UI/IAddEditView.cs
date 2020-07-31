@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
 
-namespace PhonebookM
+namespace UI
 {
     public interface IAddEditView
     {

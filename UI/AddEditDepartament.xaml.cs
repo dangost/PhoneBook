@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 
-namespace PhonebookM
+namespace UI
 {
     public partial class AddEditDepartament : Window, IAddEditView
     {

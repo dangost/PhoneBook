@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PhonebookM.Properties
+namespace UI.Properties
 {
 
 

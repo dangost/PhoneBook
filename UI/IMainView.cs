@@ -1,4 +1,4 @@
-﻿namespace PhonebookM
+﻿namespace UI
 {
     public interface IMainView
     {

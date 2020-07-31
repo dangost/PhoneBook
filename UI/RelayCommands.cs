@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace PhonebookM
+namespace UI
 {
     public class RelayCommand : ICommand
     {

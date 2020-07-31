@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace PhonebookM
+namespace UI
 {
     /// <summary>
     /// Логика взаимодействия для App.xaml

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using Domain;
 
-namespace PhonebookM
+namespace UI
 {
     public class AddEditViewModel : INotifyPropertyChanged
     {

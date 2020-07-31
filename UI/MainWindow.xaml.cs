@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Domain;
 
-namespace PhonebookM
+namespace UI
 {
     public partial class MainWindow : Window, IMainView
     {
