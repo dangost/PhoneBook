@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Controls;
+using System.Linq;
+using System;
 
 namespace PhonebookM
 {
@@ -20,7 +22,7 @@ namespace PhonebookM
             PhoneBook.Load();
 
             contacts = PhoneBook.GetAllContacts();
-            departments = PhoneBook.GetAllDepartments();
+            Departments = PhoneBook.GetAllDepartments();
             ContactsModel = PhoneBook.GetAllContactsModels();
         }
         
@@ -30,7 +32,17 @@ namespace PhonebookM
         public ContactModel selectedContactModel;
 
         public ObservableCollection<Contact> contacts { get; set; }
-        public ObservableCollection<Departament> departments { get; set; }
+        
+        public ObservableCollection<Departament> departaments;
+        public ObservableCollection<Departament> Departments
+        {
+            get { return departaments; }
+            set
+            {
+                departaments = value;
+                OnPropertyChanged("departaments");
+            }
+        }
 
         public ObservableCollection<ContactModel> contactModel;
         public ObservableCollection<ContactModel> ContactsModel
@@ -54,7 +66,7 @@ namespace PhonebookM
             contactModel.Number = contact.Number;
             contactModel.Email = contact.Email;
 
-            foreach (var d in departments)
+            foreach (var d in Departments)
             {
                 if(contact.DepId == d.Id)
                 {
@@ -152,12 +164,12 @@ namespace PhonebookM
                                 if (MainWindow.DeleteWarning())
                                 {
                                     PhoneBook.Delete(selectedDepartment);
-                                    departments.Remove(selectedDepartment);
-                                    PhoneBook.UpdateList(departments);
+                                    Departments.Remove(selectedDepartment);
+                                    PhoneBook.UpdateList(Departments);
                                 }
                         }
                     },
-                    (obj) => departments.Count > 0));
+                    (obj) => Departments.Count > 0));
             }
         }
 
@@ -188,7 +200,7 @@ namespace PhonebookM
                                                        
 
                             contacts = PhoneBook.GetAllContacts();
-                            departments = PhoneBook.GetAllDepartments();
+                            Departments = PhoneBook.GetAllDepartments();
                             PhoneBook.UpdateContactsModel(PhoneBook.GetAllContacts());
                             ContactsModel = PhoneBook.GetAllContactsModels();
                             ContactsModel = PhoneBook.GetAllContactsModels();
@@ -251,6 +263,63 @@ namespace PhonebookM
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+
+        public void ContactsSearch(string l, string form)
+        {
+            if (form == "dep")
+            {
+                PhoneBook.UpdateContactsModel(contacts);
+                ContactsModel = PhoneBook.GetAllContactsModels();
+
+                if(l.Length == 0)
+                {
+                    return;
+                }
+
+                else
+                {
+                    ObservableCollection<ContactModel> temp = new ObservableCollection<ContactModel> { };
+
+                    foreach(var c in ContactsModel)
+                    {
+                        if (Convert.ToString(c.Id).IndexOf(l) != -1 || c.Name.ToLower().IndexOf(l.ToLower()) != -1 || c.Surname.ToLower().IndexOf(l.ToLower()) != -1 || c.Number.ToLower().IndexOf(l.ToLower()) != -1 || c.Email.ToLower().IndexOf(l.ToLower()) != -1 || c.Department.ToLower().IndexOf(l.ToLower()) != -1)
+                        {
+                            temp.Add(c);
+                        }
+                        else continue;
+                    }
+
+                    ContactsModel = temp;
+                }
+
+            }
+
+            else if (form == "contact")
+            {
+                Departments = PhoneBook.GetAllDepartments();
+
+                if (l.Length == 0)
+                {
+                    return;
+                }
+
+                else
+                {
+                    ObservableCollection<Departament> temp = new ObservableCollection<Departament> { };
+
+                    foreach (var d in Departments)
+                    {
+                        if (Convert.ToString(d.Id).IndexOf(l) != -1 || d.Department.ToLower().IndexOf(l.ToLower()) != -1)
+                        {
+                            temp.Add(d);
+                        }
+                        else continue;
+                    }
+
+                    Departments = temp;
+                }
+            }
         }
     }
 }

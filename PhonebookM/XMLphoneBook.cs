@@ -89,6 +89,20 @@ namespace PhonebookM
                 Update();
             }
 
+            if (File.Exists(xmlPathDepartment))
+            {
+                XmlSerializer xml = new XmlSerializer(typeof(ObservableCollection<Departament>));
+
+                using (FileStream stream = new FileStream(xmlPathDepartment, FileMode.OpenOrCreate))
+                {
+                    departments = (ObservableCollection<Departament>)xml.Deserialize(stream);
+                }
+            }
+            else
+            {
+                Update();
+            }
+
             UpdateContactsModel(contacts);
         }
 

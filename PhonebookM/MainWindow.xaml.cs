@@ -10,11 +10,14 @@ namespace PhonebookM
         Departament selectedDepartment;
         ContactModel selectedContactModel;
 
+        ViewModel model;
         public MainWindow()
         {
             InitializeComponent();
 
-            DataContext = new ViewModel(this);
+            model = new ViewModel(this);
+            DataContext = model;
+
         }
 
         public static bool DeleteWarning()
@@ -119,5 +122,32 @@ namespace PhonebookM
                 editDepDialog.ShowDialog();
             }
         }
+
+        private void contactsSearch_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            model.ContactsSearch(contactsSearch.Text, searchingForm);
+            if(searchingForm == "contact")
+            {
+                departmentsGrid.ItemsSource = model.Departments;
+            }
+        }
+
+        public static string searchingForm = "contact";
+
+        private void tabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (searchingForm == "dep")
+            {
+                searchingForm = "contact";
+            }
+
+            else if (searchingForm == "contact")
+            {
+                searchingForm = "dep";
+            }
+
+            else searchingForm = "contact";
+        }
+
     }
 }

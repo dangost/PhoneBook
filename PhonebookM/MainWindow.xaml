@@ -15,8 +15,9 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <TextBox x:Name="contactsSearch" TextWrapping="Wrap" Text="" Margin="461,0,0,395" TextChanged="contactsSearch_TextChanged"/>
 
-        <TabControl x:Name="tabControl" Grid.Column="0" Grid.Row="0" Margin="0">
+        <TabControl x:Name="tabControl" Grid.Column="0" Grid.Row="0" Margin="0,24,0,0" SelectionChanged="tabControl_SelectionChanged">
             <TabItem Header="Contacts">
                 <Grid Margin="0,0,0,0">
                     <Grid.RowDefinitions>
@@ -25,19 +26,22 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
 
-                        <ColumnDefinition Width="103*"></ColumnDefinition>
+                        <ColumnDefinition Width="103*"/>
                         <ColumnDefinition Width="24*"/>
-                        <ColumnDefinition Width="459*"/>
+                        <ColumnDefinition Width="327*"/>
+                        <ColumnDefinition Width="132*"/>
                     </Grid.ColumnDefinitions>
 
                     <DataGrid IsReadOnly="True" x:Name="contactsGrid" AutoGenerateColumns="True" CanUserSortColumns="False" Margin="0,1" ColumnWidth="*"
                  ItemsSource="{Binding ContactsModel}"
-                 SelectedItem="{Binding SelectedContactModel}" Grid.ColumnSpan="3"/>
+                 SelectedItem="{Binding SelectedContactModel}" Grid.ColumnSpan="4"/>
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Grid.Column="2">
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Grid.Column="2" Width="257" Grid.ColumnSpan="2">
+
                         <Button x:Name="buttonAdd" Content="Add contact" Command="{Binding AddCommand}" Width="75" Height="23" Margin="5"/>
                         <Button x:Name="buttonEdit" Content="Edit" Command="{Binding EditCommand}" Width="75" Height="23" Margin="5"/>
                         <Button x:Name="buttonDelete" Command="{Binding RemoveCommand}" Content="Delete" Width="75" Height="23" Margin="5"/>
+
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -53,17 +57,17 @@
                     </Grid.ColumnDefinitions>
 
                     <DataGrid IsReadOnly="True" x:Name="departmentsGrid" AutoGenerateColumns="True" CanUserSortColumns="False" Margin="0,1" ColumnWidth="*"
-                 ItemsSource="{Binding departments}"
+                 ItemsSource="{Binding Departments}"
                  SelectedItem="{Binding SelectedDepartment}" Grid.ColumnSpan="2">
                     </DataGrid>
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" Grid.Column="2" Width="257">
                         <Button x:Name="buttonAddDep" Content="Add dep" Command="{Binding AddDepartment}" Width="75" Height="23" Margin="5"/>
                         <Button x:Name="buttonEditDep" Content="Edit" Command="{Binding EditDepartment}" Width="75" Height="23" Margin="5"/>
                         <Button x:Name="buttonDeleteDep" Command="{Binding RemoveDepartment}" Content="Delete" Width="75" Height="23" Margin="5"/>
                     </StackPanel>
                 </Grid>
-            </TabItem>           
+            </TabItem>
         </TabControl>
 
     </Grid>
