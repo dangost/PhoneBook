@@ -22,6 +22,8 @@ namespace Infrastructure
 
         public ObservableCollection<Departament> GetAllDepartments()
         {
+            int a;
+            a = 5; // delete me
             return departments;
         }
 
