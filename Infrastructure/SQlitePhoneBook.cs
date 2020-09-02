@@ -15,8 +15,7 @@ namespace Infrastructure
         class ApplicationContext : DbContext
         {
             public ApplicationContext() : base("DefaultConnection")
-            {
-                
+            {           
             }
             public DbSet<Departament> Departments { get; set; }
             public DbSet<Contact> Contacts { get; set; }
